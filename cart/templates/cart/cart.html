@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Корзина | GlowStore
+{% endblock %}
+
+
+{% block content %}
+
+
+<style>
+
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Poppins:wght@300;400;500&display=swap');
+
+
+    body {
+
+        background: #faf8f5;
+
+        font-family: 'Poppins', sans-serif;
+
+        padding: 40px;
+
+        color: #333;
+
+    }
+
+
+    h1 {
+
+        font-family: 'Playfair Display', serif;
+
+        text-align: center;
+
+    }
+
+
+    .cart {
+
+        max-width: 800px;
+
+        margin: 40px auto;
+
+    }
+
+
+    .item {
+
+        background: white;
+
+        padding: 25px;
+
+        margin-bottom: 20px;
+
+        border-radius: 20px;
+
+        display: flex;
+
+        justify-content: space-between;
+
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+
+    }
+
+
+    .price {
+
+        color: #8b6f5a;
+
+        font-weight: bold;
+
+    }
+
+
+    .total {
+
+        background: white;
+
+        padding: 25px;
+
+        border-radius: 20px;
+
+        text-align: center;
+
+        font-size: 25px;
+
+    }
+
+    button {
+
+        background: #333;
+
+        color: white;
+
+        border: none;
+
+        padding: 14px 35px;
+
+        border-radius: 30px;
+
+        font-family: 'Poppins', sans-serif;
+
+        cursor: pointer;
+
+        margin-top: 20px;
+
+    }
+
+
+    button:hover {
+
+        background: #8b6f5a;
+
+    }
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<h1>
+    🛒 Ваша корзина
+</h1>
+
+
+<div class="cart">
+
+
+    {% for item in items %}
+
+
+    <div class="item">
+
+
+        <div>
+
+            <h3>
+                {{ item.product.name }}
+            </h3>
+
+
+            <p>
+                Количество: {{ item.quantity }}
+            </p>
+
+
+        </div>
+
+
+        <div class="price">
+
+            ${{ item.total_price }}
+
+        </div>
+
+
+    </div>
+
+
+    {% empty %}
+
+
+    <p>
+        Корзина пока пустая
+    </p>
+
+
+    {% endfor %}
+
+
+    <div class="total">
+
+        Итого: ${{ total }}
+
+
+        <br><br>
+
+
+        <a href="{% url 'checkout' %}">
+
+            <button>
+                Оформить заказ
+            </button>
+
+        </a>
+
+
+    </div>
+
+
+</div>
+
+{% endblock %}

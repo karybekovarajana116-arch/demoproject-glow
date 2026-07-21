@@ -1,0 +1,312 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Магазин | GlowStore
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+
+    * {
+        box-sizing: border-box;
+    }
+
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: #faf8f5;
+        margin: 0;
+        color: #333;
+    }
+
+
+    /* Header */
+
+    header {
+        background: white;
+        padding: 60px 20px;
+        text-align: center;
+        border-bottom: 1px solid #eeeeee;
+    }
+
+
+    header h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 48px;
+        font-weight: 600;
+        color: #2d2d2d;
+        margin-bottom: 10px;
+    }
+
+
+    header p {
+        color: #777;
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+
+
+    /* Categories */
+
+    .categories {
+        text-align: center;
+        padding: 35px 20px;
+    }
+
+
+    .categories h2 {
+
+        font-family: 'Playfair Display', serif;
+        font-size: 30px;
+        font-weight: 600;
+        color: #333;
+
+    }
+
+
+    .categories span {
+
+        display: inline-block;
+
+        background: white;
+
+        padding: 10px 25px;
+
+        margin: 8px;
+
+        border-radius: 30px;
+
+        border: 1px solid #e8e1da;
+
+        color: #6b5b4d;
+
+        transition: 0.3s;
+
+    }
+
+
+    .categories span:hover {
+
+        background: #333;
+
+        color: white;
+
+    }
+
+
+    /* Products */
+
+    .products {
+
+        display: flex;
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+
+        gap: 35px;
+
+        padding: 30px 50px 60px;
+
+    }
+
+
+    .card {
+
+        background: white;
+
+        width: 290px;
+
+        padding: 25px;
+
+        border-radius: 20px;
+
+        text-align: center;
+
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+
+        transition: 0.3s;
+
+    }
+
+
+    .card:hover {
+
+        transform: translateY(-8px);
+
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+
+    }
+
+
+    .card img {
+
+        width: 220px;
+
+        height: 220px;
+
+        object-fit: cover;
+
+        border-radius: 15px;
+
+    }
+
+
+    .card h3 {
+
+        font-family: 'Playfair Display', serif;
+
+        font-size: 23px;
+
+        font-weight: 600;
+
+        margin-top: 20px;
+
+        color: #333;
+
+    }
+
+
+    .card p {
+
+        color: #777;
+
+        font-size: 15px;
+
+    }
+
+
+    .price {
+
+        color: #8b6f5a !important;
+
+        font-size: 23px !important;
+
+        font-weight: 600;
+
+        margin: 15px;
+
+    }
+
+
+    /* Button */
+
+
+    button {
+
+        background: #333;
+
+        color: white;
+
+        border: none;
+
+        padding: 12px 30px;
+
+        border-radius: 30px;
+
+        font-family: 'Poppins', sans-serif;
+
+        cursor: pointer;
+
+        transition: 0.3s;
+
+    }
+
+
+    button:hover {
+
+        background: #8b6f5a;
+
+    }
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>GlowStore</h1>
+    <p>Косметика для твоего ежедневного сияния ✨</p>
+
+</header>
+
+
+<div class="categories">
+
+    <h2>Категория</h2>
+
+
+    {% for category in categories %}
+
+    <span>
+            {{ category.name }}
+        </span>
+
+    {% endfor %}
+
+
+</div>
+
+
+<div class="products">
+
+
+    {% for product in products %}
+
+
+    <div class="card">
+
+
+        {% if product.image %}
+
+        <img src="{{ product.image.url }}">
+
+        {% endif %}
+
+
+        <h3>
+            {{ product.name }}
+        </h3>
+
+
+        <p>
+            {{ product.brand }}
+        </p>
+
+
+        <p class="price">
+            ${{ product.price }}
+        </p>
+
+
+        <a href="{% url 'product_detail' product.id %}">
+
+            <button>
+                Подробнее
+            </button>
+
+        </a>
+
+
+    </div>
+
+
+    {% endfor %}
+
+
+</div>
+
+
+{% endblock %}

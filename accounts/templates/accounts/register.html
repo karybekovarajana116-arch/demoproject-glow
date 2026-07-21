@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Регистрация | GlowStore
+{% endblock %}
+
+
+{% block content %}
+
+
+<style>
+
+    .auth-box {
+
+        max-width: 450px;
+
+        margin: 60px auto;
+
+        background: white;
+
+        padding: 40px;
+
+        border-radius: 25px;
+
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+    }
+
+
+    .auth-box h1 {
+
+        text-align: center;
+
+        font-family: 'Playfair Display', serif;
+
+        margin-bottom: 30px;
+
+    }
+
+
+    form p {
+
+        margin-bottom: 15px;
+
+    }
+
+
+    input {
+
+        width: 100%;
+
+        padding: 12px;
+
+        border: 1px solid #ddd;
+
+        border-radius: 12px;
+
+        margin-top: 5px;
+
+    }
+
+
+    button {
+
+        width: 100%;
+
+        margin-top: 20px;
+
+        background: #333;
+
+        color: white;
+
+        border: none;
+
+        padding: 14px;
+
+        border-radius: 30px;
+
+        cursor: pointer;
+
+    }
+
+
+    button:hover {
+
+        background: #8b6f5a;
+
+    }
+
+
+    .link {
+
+        text-align: center;
+
+        margin-top: 20px;
+
+    }
+
+
+    .link a {
+
+        color: #8b6f5a;
+
+    }
+
+
+</style>
+
+
+<div class="auth-box">
+
+
+    <h1>
+        Создать аккаунт
+    </h1>
+
+
+    <form method="POST">
+
+
+        {% csrf_token %}
+
+
+        {{ form.as_p }}
+
+
+        <button>
+            Зарегистрироваться
+        </button>
+
+
+    </form>
+
+
+    <div class="link">
+
+        Уже есть аккаунт?
+
+        <a href="{% url 'login' %}">
+            Войти
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}
