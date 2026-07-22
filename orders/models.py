@@ -20,6 +20,10 @@ class Order(models.Model):
         max_length=200
     )
 
+    status = models.CharField(
+        max_length=20,
+        default='Новый'
+    )
 
     created_at = models.DateTimeField(
         auto_now_add=True

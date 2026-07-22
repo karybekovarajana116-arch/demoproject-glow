@@ -1,19 +1,37 @@
+from .forms import ProductForm
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product, Category
+from django.db.models import Q
 from cart.models import CartItem
 
 
 
 def product_list(request):
-    products = Product.objects.all()
+
     categories = Category.objects.all()
+
+    category_id = request.GET.get('category')
+
+
+    if category_id:
+        products = Product.objects.filter(
+            category_id=category_id
+        )
+    else:
+        products = Product.objects.all()
+
 
     context = {
         'products': products,
         'categories': categories,
     }
 
-    return render(request, 'products/product_list.html', context)
+
+    return render(
+        request,
+        'products/product_list.html',
+        context
+    )
 
 
 from django.shortcuts import get_object_or_404
@@ -27,15 +45,7 @@ def product_detail(request, id):
         'products/product_detail.html',
         {'product': product}
     )
-def add_to_cart(request, id):
 
-    product = get_object_or_404(Product, id=id)
-
-    CartItem.objects.create(
-        product=product
-    )
-
-    return redirect('cart')
 
 def add_to_cart(request, id):
 
@@ -46,3 +56,96 @@ def add_to_cart(request, id):
     )
 
     return redirect('cart')
+
+def search_products(request):
+    query = request.GET.get('q', '')
+    products = Product.objects.none()
+
+    if query:
+        products = Product.objects.filter(
+            Q(name__icontains=query) |
+            Q(brand__icontains=query) |
+            Q(description__icontains=query)
+        )
+
+    context = {
+        'query': query,
+        'products': products,
+    }
+
+    return render(request, 'products/search_results.html', context)
+
+
+def product_create(request):
+
+    if request.method == "POST":
+
+        form = ProductForm(
+            request.POST,
+            request.FILES
+        )
+
+        if form.is_valid():
+
+            product = form.save(commit=False)
+
+            product.owner = request.user
+
+            product.save()
+
+            return redirect('product_list')
+
+
+    else:
+
+        form = ProductForm()
+
+
+    return render(
+        request,
+        'products/product_create.html',
+        {'form': form}
+    )
+
+def product_update(request, id):
+
+    product = get_object_or_404(
+        Product,
+        id=id
+    )
+
+
+    if request.method == "POST":
+
+        form = ProductForm(
+            request.POST,
+            request.FILES,
+            instance=product
+        )
+
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect(
+                'product_detail',
+                id=product.id
+            )
+
+
+    else:
+
+        form = ProductForm(
+            instance=product
+        )
+
+
+    return render(
+        request,
+        'products/product_update.html',
+        {
+            'form': form,
+            'product': product
+        }
+    )

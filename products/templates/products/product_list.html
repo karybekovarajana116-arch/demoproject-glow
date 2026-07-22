@@ -250,9 +250,13 @@
 
     {% for category in categories %}
 
+    <a href="/?category={{ category.id }}">
+
     <span>
-            {{ category.name }}
-        </span>
+        {{ category.name }}
+    </span>
+
+    </a>
 
     {% endfor %}
 
@@ -298,6 +302,17 @@
             </button>
 
         </a>
+        {% if user.is_authenticated and product.owner == user %}
+
+        <br><br>
+
+        <a href="{% url 'product_update' product.id %}">
+            <button>
+                ✏️ Редактировать
+            </button>
+        </a>
+
+        {% endif %}
 
 
     </div>

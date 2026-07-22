@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Редактировать товар | GlowStore
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<style>
+
+.form-box {
+
+    max-width: 600px;
+
+    margin: 50px auto;
+
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 25px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+
+}
+
+
+.form-box h1 {
+
+    font-family: 'Playfair Display', serif;
+
+    text-align: center;
+
+    color: #333;
+
+}
+
+
+.form-box input,
+.form-box textarea,
+.form-box select {
+
+    width: 100%;
+
+    padding: 12px;
+
+    margin: 10px 0;
+
+    border: 1px solid #ddd;
+
+    border-radius: 12px;
+
+}
+
+
+.form-box button {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border-radius: 30px;
+
+    border: none;
+
+    background: #333;
+
+    color: white;
+
+    cursor: pointer;
+
+}
+
+
+.form-box button:hover {
+
+    background: #8b6f5a;
+
+}
+
+</style>
+
+
+
+<div class="form-box">
+
+
+<h1>
+    Редактировать товар ✨
+</h1>
+
+
+
+<form method="POST" enctype="multipart/form-data">
+
+
+    {% csrf_token %}
+
+
+    {{ form.as_p }}
+
+
+    <button type="submit">
+        Сохранить изменения
+    </button>
+
+
+</form>
+
+
+</div>
+
+
+{% endblock %}
