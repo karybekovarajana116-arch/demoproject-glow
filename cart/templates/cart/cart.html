@@ -1,198 +1,160 @@
 {% extends 'base.html' %}
 
-
 {% block title %}
 Корзина | GlowStore
 {% endblock %}
 
-
 {% block content %}
 
-
 <style>
-
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Poppins:wght@300;400;500&display=swap');
 
-
     body {
-
         background: #faf8f5;
-
         font-family: 'Poppins', sans-serif;
-
         padding: 40px;
-
         color: #333;
-
     }
-
 
     h1 {
-
         font-family: 'Playfair Display', serif;
-
         text-align: center;
-
     }
-
 
     .cart {
-
         max-width: 800px;
-
         margin: 40px auto;
-
     }
-
 
     .item {
-
         background: white;
-
         padding: 25px;
-
         margin-bottom: 20px;
-
         border-radius: 20px;
-
         display: flex;
-
         justify-content: space-between;
-
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-
+        position: relative; /* Необходимо для позиционирования иконки */
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-
 
     .price {
-
         color: #8b6f5a;
-
         font-weight: bold;
-
+        display: flex;
+        align-items: center;
     }
 
-
     .total {
-
         background: white;
-
         padding: 25px;
-
         border-radius: 20px;
-
         text-align: center;
-
         font-size: 25px;
-
     }
 
     button {
-
         background: #333;
-
         color: white;
-
         border: none;
-
         padding: 14px 35px;
-
         border-radius: 30px;
-
         font-family: 'Poppins', sans-serif;
-
         cursor: pointer;
-
         margin-top: 20px;
-
     }
-
 
     button:hover {
-
         background: #8b6f5a;
-
     }
 
+    /* Иконка удаления (по умолчанию скрыта) */
+    .delete-icon {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        color: #e74c3c;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.25s ease-in-out;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px;
+        border-radius: 50%;
+        text-decoration: none;
+    }
 
+    /* Показываем мусорку при наведении на карточку */
+    .item:hover .delete-icon {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Эффект при наведении на саму мусорку */
+    .delete-icon:hover {
+        background-color: rgba(231, 76, 60, 0.1);
+        transform: scale(1.15);
+    }
 </style>
-
-
-</head>
-
-
-<body>
-
 
 <h1>
     🛒 Ваша корзина
 </h1>
 
-
 <div class="cart">
-
 
     {% for item in items %}
 
-
     <div class="item">
 
+        <!-- Кнопка удаления (иконка мусорки) -->
+        <a href="{% url 'cart_remove' item.id %}" class="delete-icon" title="Удалить товар">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <line x1="10" y1="11" x2="10" y2="17"></line>
+                <line x1="14" y1="11" x2="14" y2="17"></line>
+            </svg>
+        </a>
 
         <div>
-
             <h3>
                 {{ item.product.name }}
             </h3>
 
-
             <p>
                 Количество: {{ item.quantity }}
             </p>
-
-
         </div>
-
 
         <div class="price">
-
             ${{ item.total_price }}
-
         </div>
 
-
     </div>
-
 
     {% empty %}
 
-
-    <p>
+    <p style="text-align: center; color: #777;">
         Корзина пока пустая
     </p>
 
-
     {% endfor %}
 
-
+    {% if items %}
     <div class="total">
-
         Итого: ${{ total }}
-
 
         <br><br>
 
-
         <a href="{% url 'checkout' %}">
-
             <button>
                 Оформить заказ
             </button>
-
         </a>
-
-
     </div>
-
+    {% endif %}
 
 </div>
 
